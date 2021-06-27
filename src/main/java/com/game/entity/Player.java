@@ -1,34 +1,42 @@
 package com.game.entity;
 
-import org.hibernate.annotations.Columns;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Objects;
 
 @Table(name = "player")
 @Entity
 public class Player {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //@GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "name")
+    @NotBlank(message = "invalid name")
+    @Size(max = 12)
     private String name;
 
     @Column(name = "title")
+    @Size(max = 30)
+    @NotBlank
     private String title;
 
     @Column(name = "race")
+    @Enumerated(EnumType.STRING)
+    @NotNull
     private Race race;
 
     @Column(name = "profession")
+    @Enumerated(EnumType.STRING)
+    @NotNull
     private Profession profession;
 
     @Column(name = "experience")
+    @Max(10000000)
+    @Min(0)
     private Integer experience;
 
     @Column(name = "level")
@@ -38,6 +46,9 @@ public class Player {
     private Integer untilNextLevel;
 
     @Column(name = "birthday")
+    @NotNull
+    @Min(946674000000L)
+    @Max(32533477200000L)
     private Date birthday;
 
     @Column(name = "banned")
@@ -161,11 +172,20 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return Objects.equals(id, player.id) && Objects.equals(name, player.name) && Objects.equals(title, player.title) && race == player.race && profession == player.profession && Objects.equals(experience, player.experience) && Objects.equals(level, player.level) && Objects.equals(untilNextLevel, player.untilNextLevel) && Objects.equals(birthday, player.birthday) && Objects.equals(banned, player.banned);
+        return Objects.equals(id, player.id) && Objects.equals(name, player.name)
+                && Objects.equals(title, player.title)
+                && race == player.race
+                && profession == player.profession
+                && Objects.equals(experience, player.experience)
+                && Objects.equals(level, player.level)
+                && Objects.equals(untilNextLevel, player.untilNextLevel)
+                && Objects.equals(birthday, player.birthday)
+                && Objects.equals(banned, player.banned);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, title, race, profession, experience, level, untilNextLevel, birthday, banned);
+        return Objects.hash(id, name, title, race,
+                profession, experience, level, untilNextLevel, birthday, banned);
     }
 }

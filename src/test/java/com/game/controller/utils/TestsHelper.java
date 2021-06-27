@@ -1,6 +1,5 @@
 package com.game.controller.utils;
 
-import com.game.controller.PlayerOrder;
 import com.game.entity.Profession;
 import com.game.entity.Race;
 
@@ -75,7 +74,7 @@ public class TestsHelper {
                     "\"profession\": \"CLERIC\"," +
                     "\"birthday\" : 988059600000," +
                     "\"banned\":false," +
-                    "\"experience\": 10000001" +
+                    "\"experience\": 100000020" +
                     "}";
 
     public static final String NEGATIVE_EXPERIENCE_JSON =
