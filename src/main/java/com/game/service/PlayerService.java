@@ -2,16 +2,14 @@ package com.game.service;
 
 import com.game.entity.DTOPlayerRequestParam;
 import com.game.entity.Player;
-import com.game.entity.Race;
 import com.game.exception_handling.NoSuchPlayerException;
 import com.game.repository.PlayerDAO;
 import com.game.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service

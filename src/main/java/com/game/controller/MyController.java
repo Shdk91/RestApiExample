@@ -2,14 +2,12 @@ package com.game.controller;
 
 import com.game.entity.Player;
 import com.game.entity.DTOPlayerRequestParam;
-import com.game.exception_handling.NoSuchPlayerException;
 import com.game.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.*;
 
 @RestController
