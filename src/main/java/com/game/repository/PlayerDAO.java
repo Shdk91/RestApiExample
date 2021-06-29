@@ -1,6 +1,6 @@
 package com.game.repository;
 
-import com.game.entity.DTOPlayerRequestParam;
+import com.game.entity.DtoPlayerRequestParam;
 import com.game.entity.Player;
 import com.game.entity.PlayerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import java.util.List;
 public class PlayerDAO {
 
 
-    @Autowired
-    private  JdbcTemplate jdbcTemplate;
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
 
-    public List<Player> getPlayers(DTOPlayerRequestParam param) {
-         return jdbcTemplate.query(param.getSQLQuery(), new PlayerMapper());
-    }
+  public List<Player> getPlayers(DtoPlayerRequestParam param) {
+    return jdbcTemplate.query(param.getSQLQuery(), new PlayerMapper());
+  }
 }

@@ -13,38 +13,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class GetPlayerTest extends AbstractTest {
 
-    //test1
-    @Test
-    public void getPlayerByIdEqualZeroTest() throws Exception {
-        mockMvc.perform(get("/rest/players/0"))
-                .andExpect(status().isBadRequest());
-    }
+  //test1
+  @Test
+  public void getPlayerByIdEqualZeroTest() throws Exception {
+    mockMvc.perform(get("/rest/players/0"))
+        .andExpect(status().isBadRequest());
+  }
 
-    //test2
-    @Test
-    public void getPlayerByIdNotNumberTest() throws Exception {
-        mockMvc.perform(get("/rest/players/test"))
-                .andExpect(status().isBadRequest());
-    }
+  //test2
+  @Test
+  public void getPlayerByIdNotNumberTest() throws Exception {
+    mockMvc.perform(get("/rest/players/test"))
+        .andExpect(status().isBadRequest());
+  }
 
-    //test3
-    @Test
-    public void getPlayerByIdNotExistTest() throws Exception {
-        mockMvc.perform(get("/rest/players/410"))
-                .andExpect(status().isNotFound());
-    }
+  //test3
+  @Test
+  public void getPlayerByIdNotExistTest() throws Exception {
+    mockMvc.perform(get("/rest/players/410"))
+        .andExpect(status().isNotFound());
+  }
 
-    //test4
-    @Test
-    public void getPlayerByIdTest() throws Exception {
-        PlayerInfoTest expected = new TestsHelper().getPlayerInfosById(14);
+  //test4
+  @Test
+  public void getPlayerByIdTest() throws Exception {
+    PlayerInfoTest expected = new TestsHelper().getPlayerInfosById(14);
 
-        ResultActions resultActions = mockMvc.perform(get("/rest/players/14"))
-                .andExpect(status().isOk());
+    ResultActions resultActions = mockMvc.perform(get("/rest/players/14"))
+        .andExpect(status().isOk());
 
-        String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
-        ObjectMapper mapper = new ObjectMapper();
-        PlayerInfoTest actual = mapper.readValue(contentAsString, PlayerInfoTest.class);
-        assertEquals("Вернулся неправильный объект при запросе GET /rest/players/{id}", expected, actual);
-    }
+    String contentAsString = resultActions.andReturn().getResponse().getContentAsString();
+    ObjectMapper mapper = new ObjectMapper();
+    PlayerInfoTest actual = mapper.readValue(contentAsString, PlayerInfoTest.class);
+    assertEquals("Вернулся неправильный объект при запросе GET /rest/players/{id}", expected,
+        actual);
+  }
 }

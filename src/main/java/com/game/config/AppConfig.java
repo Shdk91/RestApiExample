@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
@@ -28,68 +30,67 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @EnableJpaRepositories(basePackages = "com.game.repository")
 public class AppConfig {
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan("com.game.entity");
+  @Bean
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+    em.setDataSource(dataSource());
+    em.setPackagesToScan("com.game.entity");
 
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
+    JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+    em.setJpaVendorAdapter(vendorAdapter);
+    em.setJpaProperties(additionalProperties());
 
-        return em;
-    }
+    return em;
+  }
 
-    @Profile("prod")
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/rpg?serverTimezone=UTC&characterEncoding=UTF-8");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-        return dataSource;
-    }
+  @Profile("prod")
+  @Bean
+  public DataSource dataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+    dataSource.setUrl("jdbc:mysql://localhost:3306/rpg?serverTimezone=UTC&characterEncoding=UTF-8");
+    dataSource.setUsername("root");
+    dataSource.setPassword("root");
+    return dataSource;
+  }
 
 
+  @Bean
+  public JdbcTemplate jdbcTemplate() {
+    JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
+    return jdbcTemplate;
+  }
 
-    @Bean
-    public JdbcTemplate jdbcTemplate(){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
-        return jdbcTemplate;
-    }
+  @Profile("dev")
+  @Bean(name = "dataSource")
+  public DataSource dataSourceForTests() {
 
-    @Profile("dev")
-    @Bean(name = "dataSource")
-    public DataSource dataSourceForTests() {
+    return new EmbeddedDatabaseBuilder()
+        .generateUniqueName(true)
+        .setType(H2)
+        .setScriptEncoding("UTF-8")
+        .ignoreFailedDrops(true)
+        .addScript("test.sql")
+        .build();
+  }
 
-        return new EmbeddedDatabaseBuilder()
-                .generateUniqueName(true)
-                .setType(H2)
-                .setScriptEncoding("UTF-8")
-                .ignoreFailedDrops(true)
-                .addScript("test.sql")
-                .build();
-    }
+  @Bean
+  public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+    JpaTransactionManager transactionManager = new JpaTransactionManager();
+    transactionManager.setEntityManagerFactory(emf);
 
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
+    return transactionManager;
+  }
 
-        return transactionManager;
-    }
+  @Bean
+  public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+    return new PersistenceExceptionTranslationPostProcessor();
+  }
 
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
+  private Properties additionalProperties() {
+    Properties properties = new Properties();
+    properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 
-    private Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-
-        return properties;
-    }
+    return properties;
+  }
 }

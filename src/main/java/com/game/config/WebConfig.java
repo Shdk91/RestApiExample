@@ -23,30 +23,31 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
 
-    @Bean
-    public ViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setViewClass(JstlView.class);
-        bean.setPrefix("/WEB-INF/");
-        bean.setSuffix(".jsp");
-        return bean;
-    }
+  @Bean
+  public ViewResolver internalResourceViewResolver() {
+    InternalResourceViewResolver bean = new InternalResourceViewResolver();
+    bean.setViewClass(JstlView.class);
+    bean.setPrefix("/WEB-INF/");
+    bean.setSuffix(".jsp");
+    return bean;
+  }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-    }
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/").setViewName("index");
+  }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+  }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.getObjectMapper().setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-        converter.getObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        converters.add(converter);
-    }
+  @Override
+  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+    converter.getObjectMapper().setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+    converter.getObjectMapper()
+        .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    converters.add(converter);
+  }
 }

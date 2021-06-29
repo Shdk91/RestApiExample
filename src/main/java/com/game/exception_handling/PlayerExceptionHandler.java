@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class PlayerExceptionHandler {
 
-    @ExceptionHandler
-    public ResponseEntity<PlayerIncorrectData> handleException(NoSuchPlayerException exception){
-        PlayerIncorrectData data = new PlayerIncorrectData();
-        data.setInfo(exception.getMessage());
+  @ExceptionHandler
+  public ResponseEntity<PlayerIncorrectData> handleException(NoSuchPlayerException exception) {
+    PlayerIncorrectData data = new PlayerIncorrectData();
+    data.setInfo(exception.getMessage());
 
-        return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
-    }
+    return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<PlayerIncorrectData> handleException(Exception exception){
-        PlayerIncorrectData data = new PlayerIncorrectData();
-        data.setInfo(exception.getMessage());
+  @ExceptionHandler
+  public ResponseEntity<PlayerIncorrectData> handleException(Exception exception) {
+    PlayerIncorrectData data = new PlayerIncorrectData();
+    data.setInfo(exception.getMessage());
 
-        return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
-    }
+    return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
+  }
 }

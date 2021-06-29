@@ -1,16 +1,17 @@
 package com.game.exception_handling;
 
 public class PlayerIncorrectData {
-    private String info;
 
-    public PlayerIncorrectData() {
-    }
+  private String info;
 
-    public String getInfo() {
-        return info;
-    }
+  public PlayerIncorrectData() {
+  }
 
-    public void setInfo(String info) {
-        this.info = info;
-    }
+  public String getInfo() {
+    return info;
+  }
+
+  public void setInfo(String info) {
+    this.info = info;
+  }
 }

@@ -23,22 +23,22 @@ import org.springframework.web.context.WebApplicationContext;
 @Sql(scripts = "classpath:test.sql", config = @SqlConfig(encoding = "UTF-8"))
 public abstract class AbstractTest {
 
-    WebApplicationContext context;
-    MockMvc mockMvc;
+  WebApplicationContext context;
+  MockMvc mockMvc;
 
-    @Autowired
-    public void setContext(WebApplicationContext context) {
-        this.context = context;
-    }
+  @Autowired
+  public void setContext(WebApplicationContext context) {
+    this.context = context;
+  }
 
-    @Before
-    public void setup() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .addFilter(((request, response, chain) -> {
-                    response.setCharacterEncoding("UTF-8");
-                    chain.doFilter(request, response);
-                }))
-                .build();
-    }
+  @Before
+  public void setup() {
+    mockMvc = MockMvcBuilders
+        .webAppContextSetup(context)
+        .addFilter(((request, response, chain) -> {
+          response.setCharacterEncoding("UTF-8");
+          chain.doFilter(request, response);
+        }))
+        .build();
+  }
 }
