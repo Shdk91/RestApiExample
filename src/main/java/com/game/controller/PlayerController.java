@@ -20,7 +20,15 @@ public class PlayerController {
 
   @GetMapping("/players")
   public List<Player> getPlayers(@ModelAttribute DtoPlayerRequestParam param) {
-    return playerService.getPlayers(param);
+    int pageSize = (param.getPageSize() == null) ? 3 : param.getPageSize();
+    int pageNumber = (param.getPageNumber() == null) ? 0 : param.getPageNumber();
+
+    List<Player> players = playerService.getPlayers(param);
+
+    int indexOfBeginPage = pageNumber * pageSize;
+    int indexOfEndPage = Math.min((pageNumber + 1) * pageSize, players.size());
+
+    return players.subList(indexOfBeginPage, indexOfEndPage);
   }
 
   @GetMapping("/players/count")
@@ -30,6 +38,9 @@ public class PlayerController {
 
   @GetMapping("/players/{id}")
   public Player getPlayer(@PathVariable Long id) {
+    if (id < 1) {
+      throw new RuntimeException();
+    }
     return playerService.getPlayer(id);
   }
 
@@ -42,7 +53,8 @@ public class PlayerController {
     player.setRace(dtoPlayerCreateOrUpdate.getRace());
     player.setProfession(dtoPlayerCreateOrUpdate.getProfession());
     player.setBirthday(new Date(dtoPlayerCreateOrUpdate.getBirthday()));
-    player.setBanned(dtoPlayerCreateOrUpdate.getBanned() != null && dtoPlayerCreateOrUpdate.getBanned());
+    player.setBanned(
+        dtoPlayerCreateOrUpdate.getBanned() != null && dtoPlayerCreateOrUpdate.getBanned());
     player.setExperience(dtoPlayerCreateOrUpdate.getExperience());
 
     playerService.createOrUpdatePlayer(player);
@@ -56,29 +68,29 @@ public class PlayerController {
   }
 
   @PostMapping("/players/{id}")
-  public Player updatePlayer( @RequestBody DtoPlayerCreateOrUpdate dtoPlayerCreateOrUpdate,
+  public Player updatePlayer(@RequestBody DtoPlayerCreateOrUpdate dtoPlayerCreateOrUpdate,
       @PathVariable Long id) {
     Player player = getPlayer(id);
 
-    if (dtoPlayerCreateOrUpdate.getName() != null){
+    if (dtoPlayerCreateOrUpdate.getName() != null) {
       player.setName(dtoPlayerCreateOrUpdate.getName());
     }
-    if (dtoPlayerCreateOrUpdate.getTitle() != null){
+    if (dtoPlayerCreateOrUpdate.getTitle() != null) {
       player.setTitle(dtoPlayerCreateOrUpdate.getTitle());
     }
-    if (dtoPlayerCreateOrUpdate.getRace() != null){
+    if (dtoPlayerCreateOrUpdate.getRace() != null) {
       player.setRace(dtoPlayerCreateOrUpdate.getRace());
     }
-    if (dtoPlayerCreateOrUpdate.getProfession() != null){
+    if (dtoPlayerCreateOrUpdate.getProfession() != null) {
       player.setProfession(dtoPlayerCreateOrUpdate.getProfession());
     }
-    if (dtoPlayerCreateOrUpdate.getBirthday() != null){
+    if (dtoPlayerCreateOrUpdate.getBirthday() != null) {
       player.setBirthday(new Date(dtoPlayerCreateOrUpdate.getBirthday()));
     }
-    if (dtoPlayerCreateOrUpdate.getExperience() != null){
+    if (dtoPlayerCreateOrUpdate.getExperience() != null) {
       player.setExperience(dtoPlayerCreateOrUpdate.getExperience());
     }
-    if (dtoPlayerCreateOrUpdate.getBanned() != null){
+    if (dtoPlayerCreateOrUpdate.getBanned() != null) {
       player.setBanned(dtoPlayerCreateOrUpdate.getBanned());
     }
 

@@ -192,26 +192,25 @@ public class DtoPlayerRequestParam {
 
   public String getSQLQuery() {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("SELECT * FROM player");
-
-    stringBuilder.append(getSQLSubQueryForDate());
-    stringBuilder.append(getSQLSubQueryForExperience());
-    stringBuilder.append(getSQLSubQueryForLevel());
+    stringBuilder.append("SELECT * FROM player")
+        .append(getSQLSubQueryForDate())
+        .append(getSQLSubQueryForExperience())
+        .append(getSQLSubQueryForLevel());
 
     if (name != null) {
-      stringBuilder.append(" AND name LIKE '%" + name + "%'");
+      stringBuilder.append(" AND name LIKE '%").append(name).append("%'");
     }
 
     if (title != null) {
-      stringBuilder.append(" AND title LIKE '%" + title + "%'");
+      stringBuilder.append(" AND title LIKE '%").append(title).append("%'");
     }
 
     if (race != null) {
-      stringBuilder.append(" AND race = '" + race.toString() + "'");
+      stringBuilder.append(" AND race = '").append(race.toString()).append("'");
     }
 
     if (profession != null) {
-      stringBuilder.append(" AND profession = '" + profession.toString() + "'");
+      stringBuilder.append(" AND profession = '").append(profession.toString()).append("'");
     }
 
     if (banned != null) {
@@ -219,19 +218,17 @@ public class DtoPlayerRequestParam {
       if (banned) {
         bannedToBit = "1";
       }
-      stringBuilder.append(" AND banned = '" + bannedToBit + "'");
+      stringBuilder.append(" AND banned = '").append(bannedToBit).append("'");
     }
 
     if (order != null) {
-      stringBuilder.append(" order by " + order.getFieldName());
+      stringBuilder.append(" order by ").append(order.getFieldName());
     }
 
     //stringBuilder.append(" limit " + (pageSize * pageNumber) + "," + pageSize);
     stringBuilder.append(";");
 
     return stringBuilder.toString();
-
-
   }
 
   private String getSQLSubQueryForLevel() {
@@ -241,9 +238,8 @@ public class DtoPlayerRequestParam {
     if (maxLevel == null) {
       maxLevel = 100000;
     }
-    String query = String
+    return String
         .format(" AND level between '%d' and '%d'", minLevel, maxLevel);
-    return query;
   }
 
   private String getSQLSubQueryForExperience() {
@@ -253,9 +249,8 @@ public class DtoPlayerRequestParam {
     if (maxExperience == null) {
       maxExperience = Integer.MAX_VALUE;
     }
-    String query = String
+    return String
         .format(" AND experience between '%d' and '%d'", minExperience, maxExperience);
-    return query;
   }
 
   private String getSQLSubQueryForDate() {
@@ -280,10 +275,8 @@ public class DtoPlayerRequestParam {
       System.out.println("Неправильный парсинг даты в getSQLSubQueryForDate()");
     }
 
-    String query = String
+    return String
         .format(" WHERE birthday >= '%s' AND birthday <= '%s'",
             dateFormat.format(after), dateFormat.format(before));
-
-    return query;
   }
 }

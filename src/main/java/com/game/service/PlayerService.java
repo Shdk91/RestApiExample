@@ -25,23 +25,10 @@ public class PlayerService {
 
 
   public List<Player> getPlayers(DtoPlayerRequestParam param) {
-
-    int pageSize = (param.getPageSize() == null) ? 3 : param.getPageSize();
-    int pageNumber = (param.getPageNumber() == null) ? 0 : param.getPageNumber();
-
-    List<Player> players = playerDAO.getPlayers(param);
-
-    int indexOfBeginPage = pageNumber * pageSize;
-    int indexOfEndPage = Math.min((pageNumber + 1) * pageSize, players.size());
-
-    return players.subList(indexOfBeginPage, indexOfEndPage);
+    return playerDAO.getPlayers(param);
   }
 
   public Player getPlayer(Long id) {
-      if (id < 1) {
-          throw new RuntimeException();
-      }
-
     Optional<Player> optionalPlayer = playerRepository.findById(id);
 
     return optionalPlayer.orElseThrow(() -> new NoSuchPlayerException
