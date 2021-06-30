@@ -72,7 +72,7 @@ public class Player {
   }
 
   public void setName(String name) {
-    if (name == null || name.length() > 12 || name.startsWith(" ")){
+    if (name == null || name.length() > 12 || name.startsWith(" ") || name.equals("")){
       throw new RuntimeException("Неправильное имя");
     }
     this.name = name;
@@ -83,7 +83,7 @@ public class Player {
   }
 
   public void setTitle(String title) {
-    if (title == null || title.length() > 30 || name.startsWith(" ")){
+    if (title == null || title.length() > 30 || title.startsWith(" ") || title.equals("") ){
       throw new RuntimeException("Неправильный титул");
     }
     this.title = title;
