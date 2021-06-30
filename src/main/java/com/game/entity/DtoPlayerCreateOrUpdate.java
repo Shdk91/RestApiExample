@@ -1,47 +1,20 @@
 package com.game.entity;
 
-import java.util.Date;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+public class DtoPlayerCreateOrUpdate {
 
-
-public class DtoPlayerCreate {
-
-  @NotBlank(message = "invalid name")
-  @Size(max = 12)
   private String name;
-
-  @Size(max = 30)
-  @NotBlank
   private String title;
-
-
-  @NotNull
   private Race race;
-
-
-  @NotNull
   private Profession profession;
-
-  @Min(946674000000L)
-  @Max(32533477200000L)
   private Long birthday;
-
   private Boolean banned;
-
-  @NotNull
-  @Max(10000000)
-  @Min(0)
   private Integer experience;
 
-  public DtoPlayerCreate() {
+  public DtoPlayerCreateOrUpdate() {
   }
 
-  public DtoPlayerCreate(
+  public DtoPlayerCreateOrUpdate(
       String name, String title, Race race, Profession profession,
       Long birthday, Boolean banned, Integer experience) {
     this.name = name;
@@ -98,6 +71,7 @@ public class DtoPlayerCreate {
   }
 
   public void setBanned(Boolean banned) {
+
     this.banned = banned;
   }
 
@@ -106,6 +80,7 @@ public class DtoPlayerCreate {
   }
 
   public void setExperience(Integer experience) {
+
     this.experience = experience;
   }
 

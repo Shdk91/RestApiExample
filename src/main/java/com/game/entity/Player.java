@@ -1,7 +1,6 @@
 package com.game.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -73,6 +72,9 @@ public class Player {
   }
 
   public void setName(String name) {
+    if (name == null || name.length() > 12 || name.startsWith(" ")){
+      throw new RuntimeException("Неправильное имя");
+    }
     this.name = name;
   }
 
@@ -81,6 +83,9 @@ public class Player {
   }
 
   public void setTitle(String title) {
+    if (title == null || title.length() > 30 || name.startsWith(" ")){
+      throw new RuntimeException("Неправильный титул");
+    }
     this.title = title;
   }
 
@@ -89,6 +94,9 @@ public class Player {
   }
 
   public void setRace(Race race) {
+    if (race == null){
+      throw new RuntimeException("Укажите рассу");
+    }
     this.race = race;
   }
 
@@ -97,6 +105,9 @@ public class Player {
   }
 
   public void setProfession(Profession profession) {
+    if (profession == null){
+      throw new RuntimeException("Укажите профессию");
+    }
     this.profession = profession;
   }
 
@@ -105,6 +116,9 @@ public class Player {
   }
 
   public void setExperience(Integer experience) {
+    if (experience > 10000000 || experience < 0){
+      throw new RuntimeException("Недопустимые показатели для опыта");
+    }
     this.experience = experience;
   }
 
@@ -129,6 +143,9 @@ public class Player {
   }
 
   public void setBirthday(Date birthday) {
+    if (birthday.getTime() > 32533477200000L || birthday.getTime() < 946674000000L){
+      throw new RuntimeException("Неправильная дата");
+    }
     this.birthday = birthday;
   }
 

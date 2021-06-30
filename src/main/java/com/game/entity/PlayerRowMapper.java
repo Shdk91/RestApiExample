@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class PlayerMapper implements RowMapper<Player> {
+public class PlayerRowMapper implements RowMapper<Player> {
 
   @Override
   public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
